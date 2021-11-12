@@ -7,19 +7,9 @@ bool is_file_empty(fstream& pFile){
     return pFile.peek() == ifstream::traits_type::eof();
 }
 
-/** @brief Opens a file in read mode
- *  @param fileDesc reference of file descriptor
- *  @param fileName string of file name
- *  @return 1 if file is opened successfully and the file is not empty; -1 otherwise
+/** @brief Function to perform operations on file after access grant
+ *  @param filePath string path of file
  */
-int openFile(fstream& fileDesc, string fileName){
-    fileDesc.open(fileName, ios::in | ios::out);
-    if(fileDesc.is_open() && !is_file_empty(fileDesc)){
-        return 1;
-    }
-    return -1;
-}
-
 void readWriteData(string filePath){
 	string line;
 	fstream sharedFile;
@@ -88,8 +78,6 @@ int main(int argc, char **argv){
 			strcpy(buffer, "REQUEST");
 			if(send(clientFd, (void*) &buffer, sizeof(buffer), 0) < 0){
 				cout<<"ERROR:: Cannot send REQUEST to co-ordinator!!"<<endl;
-				//cout<<"Sending REQUEST again in 5 seconds"<<endl;
-				//sleep(5);
 			}else {
 				cout<<"SUCCESS:: REQUEST sent to the co-ordinator "<<endl;
 				bzero(buffer, 1024);
